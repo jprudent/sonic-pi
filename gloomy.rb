@@ -17,6 +17,8 @@ live_loop :synth, sync: :beat do
   play_pattern_timed melody2, speed.choose
 end
 
+sleep n*4
+
 beet_pattern = (ring 1, 0, 0, 0)
 live_loop :beet, sync: :beat do
   with_fx :reverb do
@@ -26,6 +28,8 @@ live_loop :beet, sync: :beat do
     sleep 0.5
   end
 end
+
+sleep n*4
 
 live_loop :snare, sync: :beat do
   with_fx :reverb do
@@ -37,6 +41,8 @@ live_loop :snare, sync: :beat do
     sleep 0.25
   end
 end
+
+sleep n*4
 
 
 synth_a = (line 0.3, 1, steps: (n/2)).mirror
@@ -56,6 +62,9 @@ live_loop :spit, sync: :beat do
   end
 end
 
+sleep n*4
+
+# I don't like that loop that much
 
 blank = [:r, :r, :r, :r]
 live_loop :dark_m, sync: :beat do
@@ -64,7 +73,7 @@ live_loop :dark_m, sync: :beat do
       use_transpose 7+12
       use_synth :dark_ambience
       use_synth_defaults amp: 0.7, attack: 0, release: 0.1, cutoff: 88
-      notes = [melody1, melody2, blank, blank].choose
+      notes = knit(melody1, 1, melody2, 1, blank, 4).choose
       play_pattern_timed notes.take(3), [1, 0.25, 0.75]
       sleep 1
       x = one_in(2)
